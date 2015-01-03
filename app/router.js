@@ -6,6 +6,11 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('protanopia');
+  this.route('deuteranomaly');
+  this.route('deuteranopia');
+  this.route('dichromasy');
+  this.route('protanomaly');
 });
 
 export default Router;

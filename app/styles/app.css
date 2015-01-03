@@ -5,11 +5,6 @@ html, body {
 #game {
 	width: 650px;
 }
-<audio controls>
-<source src="horse.ogg" type="audio/ogg">
-<source src="horse.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>
 
 #gameField {
 	width: 400px;
@@ -17,7 +12,7 @@ Your browser does not support the audio element.
 	float: left;
 	margin-right: 20px;
 	border: 4px double;
-    background:#FFA62F;
+    background:#CCCC33;
 	position:relative;
 }
 
@@ -25,22 +20,22 @@ Your browser does not support the audio element.
 	width: 200px;
 	height: 400px;
 	float: left;
-	border: 1px #6f5a2d solid;
+	border: 1px #CCCC33 solid;
     -moz-border-radius:15px;
     -webkit-border-radius:15px;
     border-radius:15px;
-    background:#FFA62F;
+    background:#CCCC33;
 	font-family:sans-serif;
     font-weight:bold;
 	text-align:center;
-	color:#4E9258;
+	color:#CCCC33;
 }
 
 .bodypart {
 	height: 8px;
 	width: 8px;
 	position:absolute;
-	background:#4E9258;
+	background:#33CC00;
 	 -moz-border-radius:2px;
     -webkit-border-radius:2px;
     border-radius:2px;
@@ -61,12 +56,12 @@ Your browser does not support the audio element.
 	height: 8px;
 	width: 8px;
 	position:absolute;
-	background:#347C2C;
+	background:#33CC00;
 }
 
 #gamemsg {
 	font-size:16pt;
 	margin-bottom:35px;
 	visibility:hidden;
-	color:#E01B6A;
+	color:#33CC00;
 }

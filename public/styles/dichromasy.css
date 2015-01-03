@@ -1,0 +1,67 @@
+html, body {
+  margin: 20px;
+}
+
+#game {
+  width: 650px;
+}
+
+#gameField {
+  width: 400px;
+  height: 400px;
+  float: left;
+  margin-right: 20px;
+  border: 4px double;
+    background:#ffff00;
+  position:relative;
+}
+
+#gameInfo {
+  width: 200px;
+  height: 400px;
+  float: left;
+  border: 1px #ffff00 solid;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
+    background:#ffff00;
+  font-family:sans-serif;
+    font-weight:bold;
+  text-align:center;
+  color:#;
+}
+
+.bodypart {
+  height: 8px;
+  width: 8px;
+  position:absolute;
+  background:#00ff00;
+   -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+}
+
+#points {
+  margin:5px;
+  height:120px;
+  margin-top:15px
+}
+
+#rules {
+  margin:5px;
+    font-size:12pt;
+}
+
+.food {
+  height: 8px;
+  width: 8px;
+  position:absolute;
+  background:#00ff00;
+}
+
+#gamemsg {
+  font-size:16pt;
+  margin-bottom:35px;
+  visibility:hidden;
+  color:#00ff00;
+}

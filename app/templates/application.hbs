@@ -1,25 +1,11 @@
 <h2 id='title'>Welcome to Patrick's Snake Game</h2>
 
-{{outlet}}
+<nav>
+  {{#link-to 'protanopia'}}Protanopia{{/link-to}}
+  {{#link-to 'deuteranomaly'}}deuteranomaly{{/link-to}}
+  {{#link-to 'deuteranopia'}}deuteranopia{{/link-to}}
+  {{#link-to 'dichromasy'}}dichromasy{{/link-to}}
+  {{#link-to 'protanomaly'}}protanomaly{{/link-to}}
+</nav>
 
-<div id='game'> 
-    <div id='gameField'>  
-    </div> 
-    <div id='gameInfo'> 
-        <div id='points'>
-            <div>Your score:</div>
-            <div id='score'>0</div>
-            <div>Speed:</div>
-            <div id='speed'>1</div>
-        </div>
-        <div id='gamemsg'>
-            <div id='nextRndMsg'>Next Round!</div>
-            <div id='loseMsg'>You lose! Try again</div>
-        </div>
-        <div id='rules'>
-            <p>Press Space to start or restart the game</p>
-            <p>Use arrows to move</p>
-            <p>Press Esc to quit</p>
-        </div>
-    </div> 
- </div> 
+{{outlet}}

@@ -1,0 +1,51 @@
+<style>
+
+#gameField {
+  background:#FF0000;
+}
+
+#gameInfo {
+  background:#FF0000;
+}
+
+.bodypart {
+  background:#404040;
+}
+
+.food {
+  background:#404040;
+}
+
+#gamemsg {
+  color:#404040;
+}
+
+</style>
+
+<nav>
+  {{#link-to 'index'}}Home{{/link-to}}
+</nav>
+
+{{outlet}}
+
+<div id='game'>
+  <div id='gameField'>
+  </div>
+  <div id='gameInfo'>
+    <div id='points'>
+      <div>Your score:</div>
+      <div id='score'>0</div>
+      <div>Speed:</div>
+      <div id='speed'>1</div>
+    </div>
+    <div id='gamemsg'>
+      <div id='nextRndMsg'>Next Round!</div>
+      <div id='loseMsg'>You lose! Try again</div>
+    </div>
+    <div id='rules'>
+      <p>Press Space to start or restart the game</p>
+      <p>Use arrows to move</p>
+      <p>Press Esc to quit</p>
+    </div>
+  </div>
+</div>
