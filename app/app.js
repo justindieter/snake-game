@@ -46,22 +46,33 @@ var food;
 
 $(document).ready(function() {
     $('body').keydown(keyPressedHandler);
+        ion.sound({
+            sounds: [
+                {name: "beer_can_opening"},
+                {name: "water_droplet_3"},
+                {name: "gulp"},
+                {name: "bell_ring"}
+            ],
+            path: "sounds/",
+            preload: true,
+            volume: 1.0
+        });
 });
 
 function move() {
 	generateFood();
 	snake.move(moveDirection);
-	
+
 	if(snake.holdsPosition(food.xPos,food.yPos)) {
 		eatFood();
 	}
-		
+
 	drawSnake();
 }
 
 function keyPressedHandler(e) {
 	var code = (e.keyCode ? e.keyCode : e.which);
-	
+
 	switch(code) {
 		case LEFT_ARROW:
 			moveDirection = 'left';
@@ -92,7 +103,7 @@ function startGame() {
 	gameSpeed=100;
 	endGame();
 	gameBoard.clearGameInfo();
-	
+
 	snake = new Snake(80,80);
 	snake.onCrash(snakeCrashHandler,{xPos:400,yPos:400});
 	drawSnake();
@@ -103,16 +114,16 @@ function endGame() {
 	if(gameExecutor) {
 		clearInterval(gameExecutor);
 	}
-	
+
 	gameBoard.clearBoard();
 }
 
 function drawSnake() {
 	gameBoard.removeSnakeBody();
-	
+
 	//draw the new snake
 	var snakeBody = snake.getBody();
-	
+
 	for(var i=0; i<snakeBody.length; i++){
 		gameBoard.drawElement('bodypart',snakeBody[i].xPos,snakeBody[i].yPos);
 	}
@@ -133,13 +144,14 @@ function generateFood() {
 }
 
 function eatFood() {
+	ion.sound.play("gulp");
 	snake.eatFood();
 	gameBoard.removeSnakeFood();
-	
+
 	eatenItemsCount++;
 	if(eatenItemsCount >= MAX_FOOD_ITEMS)
 		startNextRound();
-	
+
 	gameBoard.updateScore(roundNum);
 }
 
@@ -174,32 +186,81 @@ function Snake(startX,startY) {
 	var gameRegion;
 	var onCrashCallback;
 	var self = this;
-	
+
 	this.eatFood = function() {
 		bodyParts.push(getNewTail());
 	};
-	
+
 	this.move = function(newDirection) {
 		if(isReverseDirection(newDirection)) {
 			reverseBodyMove();
 		}
-			
+
 		var newHead = getNewHead(newDirection);
-		
+
 		if(crash(newHead))
 			onCrashCallback();
-		else{		
+		else{
+			//console.log (newHead.xPos);
+			//console.log ("wall: " + gameRegion.xPos + " ceiling ");
+			if(newHead.xPos > gameRegion.xPos - 40
+			|| newHead.yPos > gameRegion.yPos - 40
+			|| newHead.xPos < 40
+			|| newHead.yPos < 40 ) {
+				// Loop sound playback
+				//ion.sound.play("bell_ring");
+				//ion.sound.play("camera_flashing");
+				//ion.sound.play("beer_can_opening", {
+   				//	volume: 0.2
+				//});
+			    ion.sound.play("water_droplet_3");
+			}
+
+			var vol = 0.5;
+			if (food.xPos > newHead.xPos) {
+				vol = (food.xPos - newHead.xPos) / 10;
+			} else {
+				vol = (newHead.xPos - food.xPos) / 10;
+			}
+			if (vol < 1) {
+				ion.sound.play("beer_can_opening", {
+						volume: 0.8
+				});
+			} else {
+				ion.sound.play("beer_can_opening", {
+						volume: 0.2
+				});
+			}
+			//console.log (food.xPos + ":" + food.yPos);
+			//console.log (food.xPos + "/" + newHead.xPos);
+			//console.log ("Vol: " + vol);
+			if (food.yPos > newHead.yPos) {
+				vol = (food.yPos - newHead.yPos) / 5;
+			} else {
+				vol = (newHead.yPos - food.yPos) / 5;
+			}
+			if (vol < 1) {
+				ion.sound.play("bell_ring", {
+						volume: 0.4
+				});
+			} else {
+				ion.sound.play("bell_ring", {
+						volume: 0.1
+				});
+			}
+
+
 			for(var i = bodyParts.length-1; i>0 ;i--){
 				bodyParts[i] = bodyParts[i-1];
 			}
 			bodyParts[0] = newHead;
 		}
 	};
-	
+
 	this.getBody = function() {
 		return bodyParts;
 	};
-	
+
 	this.holdsPosition = function(xpos,ypos) {
 		for(var i = 0; i< bodyParts.length; i++){
 			if(bodyParts[i].xPos == xpos && bodyParts[i].yPos == ypos)
@@ -207,15 +268,15 @@ function Snake(startX,startY) {
 		}
 		return false;
 	};
-	
+
 	this.onCrash = function(crashCallback,fieldSize) {
 		gameRegion = fieldSize;
 		onCrashCallback = crashCallback;
 	};
-	
+
 	var getNewHead = function(direction){
 		var currentHead = bodyParts[0];
-		
+
 		switch(direction){
 			case 'right':
 				return new BodyPart(currentHead.xPos+moveStep,currentHead.yPos,direction);
@@ -227,11 +288,11 @@ function Snake(startX,startY) {
 				return new BodyPart(currentHead.xPos,currentHead.yPos+moveStep,direction);
 		};
 	};
-	
+
 	var getNewTail = function(){
 		var currentTail = bodyParts[bodyParts.length-1];
 		var tailDirection = currentTail.direction;
-		
+
 		switch(tailDirection){
 			case 'right':
 				return new BodyPart(currentTail.xPos-moveStep,currentTail.yPos,tailDirection);
@@ -243,7 +304,7 @@ function Snake(startX,startY) {
 				return new BodyPart(currentTail.xPos,currentTail.yPos-moveStep,tailDirection);
 		};
 	};
-	
+
 	var crash = function(head){
 		if(head.xPos >= gameRegion.xPos
 			|| head.yPos >= gameRegion.yPos
@@ -251,20 +312,20 @@ function Snake(startX,startY) {
 			|| head.yPos < 0
 			|| self.holdsPosition(head.xPos,head.yPos))
 			return true;
-		
+
 		return false;
 	};
-	
+
 	var isReverseDirection = function(newDirection) {
 		var currentHeadDirection = bodyParts[0].direction;
 		return newDirection == reverseDirections[currentHeadDirection];
 	};
-	
+
 	var reverseBodyMove = function() {
 		var tmpBodyPart;
 		var halfBodyLength = Math.floor(bodyParts.length/2);
 		var bodyLength = bodyParts.length -1;
-		
+
 		for(var i = 0; i< halfBodyLength; i++){
 			tmpBodyPart = bodyParts[i];
 			bodyParts[i] = bodyParts[bodyLength - i];
@@ -283,46 +344,46 @@ function GameBoard() {
 		$element.css('top',ypos+'px').css('left',xpos+'px');
 		$('#gameField').append($element);
 	};
-	
+
 	this.clearBoard = function(){
 		$('div.bodypart').remove();
 		$('.food').remove();
 	};
-	
+
 	this.clearGameInfo = function() {
 		$('#score').html('0');
 		$('#loseMsg').css('visibility','hidden');
 		$('#speed').html('1');
 	};
-	
+
 	this.hasNoCreatedFood = function() {
 		return $('.food').length == 0 ;
 	};
-	
+
 	this.removeSnakeBody = function() {
 		$('div.bodypart').remove();
 	};
-	
+
 	this.removeSnakeFood = function() {
 		$('.food').remove();
 	};
-	
+
 	this.updateScore = function(currentRound) {
 		var $currentScore = Number($('#score').html());
 		$currentScore+=currentRound;
 		$('#score').html($currentScore);
 	};
-	
+
 	this.showLoseMessage = function(){
 		$('#loseMsg').css('visibility','visible');
 	};
-	
+
 	this.showNextRoundMsg = function() {
 		$('#nextRndMsg').hide().css({visibility: 'visible'}).fadeIn(2000);
 		$('#nextRndMsg').fadeOut(2000, function() {
 				$(this).show().css({visibility: 'hidden'});
 			});
-			
+
 		var $currentSpeed = Number($('#speed').html());
 		$currentSpeed++;
 		$('#speed').html($currentSpeed);

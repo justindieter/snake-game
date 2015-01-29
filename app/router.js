@@ -11,6 +11,8 @@ Router.map(function() {
   this.route('deuteranopia');
   this.route('dichromasy');
   this.route('protanomaly');
+  this.route('home');
+  this.route('hidden');
 });
 
 export default Router;
